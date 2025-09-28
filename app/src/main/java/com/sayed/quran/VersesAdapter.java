@@ -3,16 +3,16 @@ package com.sayed.quran;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.text.LineBreaker;
 import android.text.Html;
-import android.text.Layout;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -22,7 +22,6 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -61,13 +60,16 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int p) {
+        dbConn dbConn = new dbConn(context);
+        ArrayList<suraInfoModel> suraInfo = new ArrayList<>();
+        suraInfo = dbConn.getSuraInfo(versesArray.get(0).sura);
+
+        String sura_title = suraInfo.get(0).sura_title;
 
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            dbConn dbConn = new dbConn(context);
-            ArrayList<suraInfoModel> suraInfo = new ArrayList<>();
-            suraInfo = dbConn.getSuraInfo(versesArray.get(0).sura);
-            headerViewHolder.title.setText(suraInfo.get(0).sura_title);
+
+            headerViewHolder.title.setText(sura_title);
             headerViewHolder.meaning.setText(suraInfo.get(0).meaning);
             headerViewHolder.itemView.setAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_in));
             initialize_font_face(headerViewHolder.title);
@@ -129,48 +131,55 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.TransparentBottomSheetDialog);
                         bottomSheetDialog.setContentView(R.layout.bottom_sheet_word_info);
 
-                      //  FlexboxLayout arabic_container = bottomSheetDialog.findViewById(R.id.arabic_container);
+                        TextView word_title = bottomSheetDialog.findViewById(R.id.word_title);
                         TextView word_meaning = bottomSheetDialog.findViewById(R.id.word_meaning);
                         TextView word_lemma = bottomSheetDialog.findViewById(R.id.word_lemma);
                         TextView word_root = bottomSheetDialog.findViewById(R.id.word_root);
+                        TextView arabic_exp = bottomSheetDialog.findViewById(R.id.arabic_exp);
 
-                        FlexboxLayout arabic_container = bottomSheetDialog.findViewById(R.id.arabic_container);
+
+                        word_title.setText(sura_title + "->" + sura_no + ":" + ayah_no + ":" + word_no);
+
+
                         String arabic_words = wordInfoArray.get(0).arabic;
                         String[] arabic_words_array = arabic_words.split("___");
 
-                        arabic_container.removeAllViews();
 
-                        for (String word : arabic_words_array) {
-                            if (!word.trim().isEmpty()) {
-                                View view = LayoutInflater.from(context).inflate(R.layout.arabic_word_exp, arabic_container, false);
+                        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 
-                                TextView arabic_words_exp_textview = view.findViewById(R.id.arabic_word_exp);
-                                arabic_words_exp_textview.setText(word.trim());
-                             arabic_words_exp_textview.setTextLocale(new Locale("ar")); // Arabic locale
-                                // Click listener example
-                                arabic_words_exp_textview.setOnClickListener(v2 -> {
-                                    Toast.makeText(context, "Clicked: " + word.trim(), Toast.LENGTH_SHORT).show();
-                                });
+                        for (int i = 0; i < arabic_words_array.length; i++) {
+                            int start = spannableStringBuilder.length(); // শুরুর index
+                            spannableStringBuilder.append(arabic_words_array[i]);
 
-                                arabic_container.addView(view);
+                            int end = spannableStringBuilder.length(); // শেষ index
+
+                            // 4th word (index 4) এ রঙ লাল হবে
+                            if (i == 0) {
+                                spannableStringBuilder.setSpan(
+                                        new ForegroundColorSpan(Color.RED),
+                                        start,
+                                        end,
+                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                                );
                             }
+
+
                         }
+
+                        arabic_exp.setText(spannableStringBuilder);
 
 
                         word_meaning.setText(translation_word_srt);
                         initialize_font_face(word_meaning);
 
 
-
-
                         word_lemma.setText(wordInfoArray.get(0).lemma);
 
                         if (wordInfoArray.get(0).root_ar.trim().isEmpty()) {
                             word_root.setText("...");
-                        }else {
+                        } else {
                             word_root.setText(wordInfoArray.get(0).root_ar);
                         }
-
 
 
                         Button exit_btn = bottomSheetDialog.findViewById(R.id.exit_button);
