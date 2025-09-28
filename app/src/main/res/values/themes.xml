@@ -1,0 +1,264 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Quran" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textCursorDrawable">@drawable/custom_cursor</item>
+        <item name="android:textColorHighlight">?attr/myColor</item>
+        <item name="android:fontFamily">@font/poppins</item>
+
+    </style>
+
+    <style name="baseTheme" parent="Base.Theme.Quran" />
+
+    <!-- my custom themes -->
+
+    <!-- int_plant -->
+    <style name="int_plant" parent="baseTheme">
+        <item name="myColor">@color/int_plant_color</item>
+        <item name="myTextColor">@color/int_plant_text_color</item>
+        <item name="myBackground">@drawable/int_plant</item>
+    </style>
+
+    <!-- rose -->
+    <style name="rose" parent="baseTheme">
+        <item name="myColor">@color/rose_color</item>
+        <item name="myTextColor">@color/rose_text_color</item>
+        <item name="myBackground">@drawable/rose</item>
+    </style>
+
+    <!-- butterfly -->
+    <style name="butterfly" parent="baseTheme">
+        <item name="myColor">@color/butterfly_color</item>
+        <item name="myTextColor">@color/butterfly_text_color</item>
+        <item name="myBackground">@drawable/butterfly</item>
+    </style>
+
+    <!-- lotus -->
+    <style name="lotus" parent="baseTheme">
+        <item name="myColor">@color/lotus_color</item>
+        <item name="myTextColor">@color/lotus_text_color</item>
+        <item name="myBackground">@drawable/lotus</item>
+    </style>
+
+    <!-- beach_life -->
+    <style name="beach_life" parent="baseTheme">
+        <item name="myColor">@color/beach_life_color</item>
+        <item name="myTextColor">@color/beach_life_text_color</item>
+        <item name="myBackground">@drawable/beach_life</item>
+    </style>
+
+    <!-- little_world -->
+    <style name="little_world" parent="baseTheme">
+        <item name="myColor">@color/little_world_color</item>
+        <item name="myTextColor">@color/little_world_text_color</item>
+        <item name="myBackground">@drawable/little_world</item>
+    </style>
+
+    <!-- cilantro -->
+    <style name="cilantro" parent="baseTheme">
+        <item name="myColor">@color/cilantro_color</item>
+        <item name="myTextColor">@color/cilantro_text_color</item>
+        <item name="myBackground">@drawable/cilantro</item>
+    </style>
+
+    <!-- green_sprout -->
+    <style name="green_sprout" parent="baseTheme">
+        <item name="myColor">@color/green_sprout_color</item>
+        <item name="myTextColor">@color/green_sprout_text_color</item>
+        <item name="myBackground">@drawable/green_sprout</item>
+    </style>
+
+    <!-- momagic -->
+    <style name="momagic" parent="baseTheme">
+        <item name="myColor">@color/momagic_color</item>
+        <item name="myTextColor">@color/momagic_text_color</item>
+        <item name="myBackground">@drawable/momagic</item>
+    </style>
+
+    <!-- pants -->
+    <style name="pants" parent="baseTheme">
+        <item name="myColor">@color/pants_color</item>
+        <item name="myTextColor">@color/pants_text_color</item>
+        <item name="myBackground">@drawable/pants</item>
+    </style>
+
+    <!-- pink_rose -->
+    <style name="pink_rose" parent="baseTheme">
+        <item name="myColor">@color/pink_rose_color</item>
+        <item name="myTextColor">@color/pink_rose_text_color</item>
+        <item name="myBackground">@drawable/pink_rose</item>
+    </style>
+
+    <!-- pomegranate -->
+    <style name="pomegranate" parent="baseTheme">
+        <item name="myColor">@color/pomegranate_color</item>
+        <item name="myTextColor">@color/pomegranate_text_color</item>
+        <item name="myBackground">@drawable/pomegranate</item>
+    </style>
+
+
+    <!-- cherry -->
+    <style name="cherry" parent="baseTheme">
+        <item name="myColor">@color/cherry_color</item>
+        <item name="myTextColor">@color/cherry_text_color</item>
+        <item name="myBackground">@drawable/cherry</item>
+    </style>
+
+    <!-- fruits_green -->
+    <style name="fruits_green" parent="baseTheme">
+        <item name="myColor">@color/fruits_green_color</item>
+        <item name="myTextColor">@color/fruits_green_text_color</item>
+        <item name="myBackground">@drawable/fruits_green</item>
+    </style>
+
+    <!-- green_perfume -->
+    <style name="green_perfume" parent="baseTheme">
+        <item name="myColor">@color/green_perfume_color</item>
+        <item name="myTextColor">@color/green_perfume_text_color</item>
+        <item name="myBackground">@drawable/green_perfume</item>
+    </style>
+
+    <!-- lychee -->
+    <style name="lychee" parent="baseTheme">
+        <item name="myColor">@color/lychee_color</item>
+        <item name="myTextColor">@color/lychee_text_color</item>
+        <item name="myBackground">@drawable/lychee</item>
+    </style>
+
+    <!-- olive_cake -->
+    <style name="olive_cake" parent="baseTheme">
+        <item name="myColor">@color/olive_cake_color</item>
+        <item name="myTextColor">@color/olive_cake_text_color</item>
+        <item name="myBackground">@drawable/olive_cake</item>
+    </style>
+
+    <!-- olive -->
+    <style name="olive" parent="baseTheme">
+        <item name="myColor">@color/olive_color</item>
+        <item name="myTextColor">@color/olive_text_color</item>
+        <item name="myBackground">@drawable/olive</item>
+    </style>
+
+    <!-- omelette -->
+    <style name="omelette" parent="baseTheme">
+        <item name="myColor">@color/omelette_color</item>
+        <item name="myTextColor">@color/omelette_text_color</item>
+        <item name="myBackground">@drawable/omelette</item>
+    </style>
+
+    <!-- orange_juice -->
+    <style name="orange_juice" parent="baseTheme">
+        <item name="myColor">@color/orange_juice_color</item>
+        <item name="myTextColor">@color/orange_juice_text_color</item>
+        <item name="myBackground">@drawable/orange_juice</item>
+    </style>
+
+    <!-- orange -->
+    <style name="orange" parent="baseTheme">
+        <item name="myColor">@color/orange_color</item>
+        <item name="myTextColor">@color/orange_text_color</item>
+        <item name="myBackground">@drawable/orange</item>
+    </style>
+
+    <!-- strawberry -->
+    <style name="strawberry" parent="baseTheme">
+        <item name="myColor">@color/strawberry_color</item>
+        <item name="myTextColor">@color/strawberry_text_color</item>
+        <item name="myBackground">@drawable/strawberry</item>
+    </style>
+
+    <!-- theme1 -->
+    <style name="theme1" parent="baseTheme">
+        <item name="myColor">@color/theme1_color</item>
+        <item name="myTextColor">@color/theme1_text_color</item>
+        <item name="myBackground">@drawable/theme1</item>
+    </style>
+
+
+    <!-- theme1 -->
+    <style name="theme2" parent="baseTheme">
+        <item name="myColor">@color/theme2_color</item>
+        <item name="myTextColor">@color/theme2_text_color</item>
+        <item name="myBackground">@drawable/theme2</item>
+    </style>
+
+
+    <!-- theme3 -->
+    <style name="theme3" parent="baseTheme">
+        <item name="myColor">@color/theme3_color</item>
+        <item name="myTextColor">@color/theme3_text_color</item>
+        <item name="myBackground">@drawable/theme3</item>
+    </style>
+
+    <!-- theme4 -->
+    <style name="theme4" parent="baseTheme">
+        <item name="myColor">@color/theme4_color</item>
+        <item name="myTextColor">@color/theme4_text_color</item>
+        <item name="myBackground">@drawable/theme4</item>
+    </style>
+
+    <!-- theme5 -->
+    <style name="theme5" parent="baseTheme">
+        <item name="myColor">@color/theme5_color</item>
+        <item name="myTextColor">@color/theme5_text_color</item>
+        <item name="myBackground">@drawable/theme5</item>
+    </style>
+
+    <!-- theme6 -->
+    <style name="theme6" parent="baseTheme">
+        <item name="myColor">@color/theme6_color</item>
+        <item name="myTextColor">@color/theme6_text_color</item>
+        <item name="myBackground">@drawable/theme6</item>
+    </style>
+
+    <!-- theme7 -->
+    <style name="theme7" parent="baseTheme">
+        <item name="myColor">@color/theme7_color</item>
+        <item name="myTextColor">@color/theme7_text_color</item>
+        <item name="myBackground">@drawable/theme7</item>
+    </style>
+
+    <!-- theme8 -->
+    <style name="theme8" parent="baseTheme">
+        <item name="myColor">@color/theme8_color</item>
+        <item name="myTextColor">@color/theme8_text_color</item>
+        <item name="myBackground">@drawable/theme8</item>
+    </style>
+
+    <!-- theme9 -->
+    <style name="theme9" parent="baseTheme">
+        <item name="myColor">@color/theme9_color</item>
+        <item name="myTextColor">@color/theme9_text_color</item>
+        <item name="myBackground">@drawable/theme9</item>
+    </style>
+
+    <!-- theme10 -->
+    <style name="theme10" parent="baseTheme">
+        <item name="myColor">@color/theme10_color</item>
+        <item name="myTextColor">@color/theme10_text_color</item>
+        <item name="myBackground">@drawable/theme10</item>
+    </style>
+
+    <!-- theme11 -->
+    <style name="theme11" parent="baseTheme">
+        <item name="myColor">@color/theme11_color</item>
+        <item name="myTextColor">@color/theme11_text_color</item>
+        <item name="myBackground">@drawable/theme11</item>
+    </style>
+
+    <!-- theme12 -->
+    <style name="theme12" parent="baseTheme">
+        <item name="myColor">@color/theme12_color</item>
+        <item name="myTextColor">@color/theme12_text_color</item>
+        <item name="myBackground">@drawable/theme12</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
+</resources>
+

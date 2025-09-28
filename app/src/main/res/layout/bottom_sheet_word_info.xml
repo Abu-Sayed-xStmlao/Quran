@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/input_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/word_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
+        android:text="Al Baqara 2:73:51"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/pos_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        app:flexWrap="wrap"
+        app:justifyContent="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/gd_circle"
+                android:backgroundTint="#6200EA" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Noun" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/gd_circle"
+                android:backgroundTint="#00BFA5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pronoun" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/gd_circle"
+                android:backgroundTint="#FF4D9D" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adjective" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/gd_circle"
+                android:backgroundTint="#F57C00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Verb" />
+        </LinearLayout>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/arabic_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        app:flexWrap="wrap"
+        app:justifyContent="center"
+        app:alignItems="center"
+        app:flexDirection="row" >
+
+
+    <!-- بِـ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/scheherazade_new"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:text="بِـ"
+            android:textColor="#f00"
+            android:textDirection="anyRtl"
+            android:textSize="40sp" />
+
+        <!-- سْمِ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/scheherazade_new"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:layoutDirection="rtl"
+            android:text="سْمِ"
+            android:textColor="#00f"
+            android:textDirection="anyRtl"
+            android:textSize="40sp" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:id="@+id/word_meaning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:text="In the name"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lemma/derived form" />
+
+            <!-- سْمِ -->
+            <TextView
+                android:id="@+id/word_lemma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/scheherazade_new"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:layoutDirection="rtl"
+                android:text="سْمِ"
+                android:textColor="#00f"
+                android:textDirection="anyRtl"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Root Word" />
+
+            <!-- سْمِ -->
+            <TextView
+                android:id="@+id/word_root"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/scheherazade_new"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:layoutDirection="rtl"
+                android:text="سْمِ"
+                android:textColor="#00f"
+                android:textDirection="anyRtl"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="?attr/myColor"
+        android:text="exit"
+        android:textColor="?attr/myTextColor" />
+
+
+</LinearLayout>

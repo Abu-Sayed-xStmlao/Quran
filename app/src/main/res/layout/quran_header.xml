@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="80dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Al Fatiha"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="?attr/myColor"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/meaning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="the opening"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/verse_jumper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jumper"
+        android:background="@drawable/input_bg"
+        android:paddingVertical="3dp"
+        android:paddingHorizontal="10dp"
+        android:textAllCaps="true"
+        android:textColor="?attr/myColor"
+        android:layout_gravity="center"
+        />
+</LinearLayout>
+
