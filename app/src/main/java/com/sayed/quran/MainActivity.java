@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         copyDatabaseToExternalStorage(this);
 
 
+        long unix = System.currentTimeMillis();
         dbConn dbConn = new dbConn(this);
         indexArray = dbConn.getIndex();
 
