@@ -17,7 +17,7 @@ public class dbConn extends SQLiteOpenHelper {
     public static final String DB_NAME = "theQuran.db";
     public static final int DB_VERSION = 1;
 
-    private Context context;
+    private final Context context;
 
     public dbConn(@Nullable Context context) {
         super(context, DB_PATH + DB_NAME, null, DB_VERSION);
@@ -40,18 +40,17 @@ public class dbConn extends SQLiteOpenHelper {
     public ArrayList<IndexModel> getIndex() {
         ArrayList<IndexModel> indexList = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
+        String lang = LanguagePref.getLanguage(context);
         // Use try-with-resources to ensure automatic resource cleanup
         try (Cursor cursor = database.rawQuery("SELECT * FROM sura ", null)) {
             if (cursor.moveToFirst()) {
                 do {
                     String sura = cursor.getInt(cursor.getColumnIndexOrThrow("sura")) + "";
-                    String name_en = cursor.getString(cursor.getColumnIndexOrThrow("name_en"));
-                    String name_bn = cursor.getString(cursor.getColumnIndexOrThrow("name_bn"));
-                    String name_hn = cursor.getString(cursor.getColumnIndexOrThrow("name_hn"));
+                    String title = cursor.getString(cursor.getColumnIndexOrThrow("name_" + lang));
                     String meaning = cursor.getString(cursor.getColumnIndexOrThrow("meaning"));
-                    String ayat_count = cursor.getInt(cursor.getColumnIndexOrThrow("ayat_count")) + "";
+                    String ayah_count = cursor.getInt(cursor.getColumnIndexOrThrow("ayat_count")) + "";
 
-                    IndexModel model = new IndexModel(sura, name_en, name_bn, name_hn, meaning, ayat_count);
+                    IndexModel model = new IndexModel(sura, title, meaning, ayah_count);
                     indexList.add(model);
                 } while (cursor.moveToNext());
             }
@@ -64,6 +63,7 @@ public class dbConn extends SQLiteOpenHelper {
     public ArrayList<IndexModel> getIndex(String find) {
         ArrayList<IndexModel> indexList = new ArrayList<>();
         SQLiteDatabase database = this.getWritableDatabase();
+        String lang = LanguagePref.getLanguage(context);
         // Use try-with-resources to ensure automatic resource cleanup
 
 
@@ -77,13 +77,12 @@ public class dbConn extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     String sura = cursor.getInt(cursor.getColumnIndexOrThrow("sura")) + "";
-                    String name_en = cursor.getString(cursor.getColumnIndexOrThrow("name_en"));
-                    String name_bn = cursor.getString(cursor.getColumnIndexOrThrow("name_bn"));
-                    String name_hn = cursor.getString(cursor.getColumnIndexOrThrow("name_hn"));
+                    String title = cursor.getString(cursor.getColumnIndexOrThrow("name_" + lang));
                     String meaning = cursor.getString(cursor.getColumnIndexOrThrow("meaning"));
-                    String ayat_count = cursor.getInt(cursor.getColumnIndexOrThrow("ayat_count")) + "";
+                    String ayah_count = cursor.getInt(cursor.getColumnIndexOrThrow("ayat_count")) + "";
 
-                    IndexModel model = new IndexModel(sura, name_en, name_bn, name_hn, meaning, ayat_count);
+                    IndexModel model = new IndexModel(sura, title, meaning, ayah_count);
+
                     indexList.add(model);
                 } while (cursor.moveToNext());
             }

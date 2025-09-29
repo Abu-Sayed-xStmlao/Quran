@@ -1,6 +1,7 @@
 package com.sayed.quran;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     EditText search_input;
     ArrayList<IndexModel> indexArray = new ArrayList<>();
     Boolean is_searchbar_active = false;
-    TextView longer;
+    TextView longer, lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         longer = findViewById(R.id.longer);
+        lang = findViewById(R.id.lang);
+
+
+        lang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLanguageDialog();
+            }
+        });
+        
+        longer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ThemesActivity.class));
+            }
+        });
+
+
         longer.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -167,6 +186,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void showLanguageDialog() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.popup_language_chooser);
+        dialog.setCancelable(true);
+
+        TextView btnEnglish = dialog.findViewById(R.id.btn_english);
+        TextView btnBangla = dialog.findViewById(R.id.btn_bangla);
+        TextView btnHindi = dialog.findViewById(R.id.btn_hindi);
+
+        View.OnClickListener languageClickListener = v -> {
+            String lang = "en";
+            if (v.getId() == R.id.btn_bangla) {
+                lang = "bn";
+            } else if (v.getId() == R.id.btn_hindi) {
+                lang = "hn";
+            }
+
+
+            dbConn dbConn = new dbConn(MainActivity.this);
+            //indexArray = dbConn.getIndex();
+            LanguagePref.setLanguage(MainActivity.this, lang);
+            dialog.dismiss();
+            recreate();
+        };
+
+        btnEnglish.setOnClickListener(languageClickListener);
+        btnBangla.setOnClickListener(languageClickListener);
+        btnHindi.setOnClickListener(languageClickListener);
+
+        dialog.show();
     }
 
 

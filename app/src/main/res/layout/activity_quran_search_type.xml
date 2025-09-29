@@ -8,6 +8,13 @@
     android:background="?attr/myBackground"
     tools:context=".QuranSearchTypeActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#9CFFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <include
         android:id="@+id/include"
         layout="@layout/top_background" />

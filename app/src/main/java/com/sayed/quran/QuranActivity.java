@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -104,13 +102,12 @@ public class QuranActivity extends AppCompatActivity {
 
     private void showLanguageDialog(int suraNumber) {
         Dialog dialog = new Dialog(QuranActivity.this);
-        dialog.setContentView(R.layout.dialog_language_selector);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(R.layout.popup_language_chooser);
         dialog.setCancelable(true);
 
-        Button btnEnglish = dialog.findViewById(R.id.btn_english);
-        Button btnBangla = dialog.findViewById(R.id.btn_bangla);
-        Button btnHindi = dialog.findViewById(R.id.btn_hindi);
+        TextView btnEnglish = dialog.findViewById(R.id.btn_english);
+        TextView btnBangla = dialog.findViewById(R.id.btn_bangla);
+        TextView btnHindi = dialog.findViewById(R.id.btn_hindi);
 
         View.OnClickListener languageClickListener = v -> {
             String lang = "en";

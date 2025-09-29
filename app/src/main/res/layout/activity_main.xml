@@ -8,7 +8,7 @@
     android:background="?attr/myBackground"
     tools:context=".MainActivity">
 
-
+  
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/index_recyclerview"
         android:layout_width="match_parent"
@@ -32,15 +32,28 @@
         android:id="@+id/longer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="goTheme"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="25dp"
+        android:layout_marginTop="25dp"
+        android:paddingHorizontal="15dp"
         android:text="Quran"
         android:textAllCaps="true"
         android:textColor="?attr/myTextColor"
         android:textSize="23sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="35dp"
+        android:paddingBottom="42dp"
+        android:text="Lang"
+        android:textAllCaps="true"
+        android:textColor="?attr/myTextColor"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view3"
+        app:layout_constraintEnd_toEndOf="@+id/longer"
+        app:layout_constraintStart_toStartOf="@+id/view3" />
 
     <EditText
         android:id="@+id/search_input"

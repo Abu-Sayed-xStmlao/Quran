@@ -2,7 +2,7 @@ package com.sayed.quran;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -130,38 +130,66 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.TransparentBottomSheetDialog);
                         bottomSheetDialog.setContentView(R.layout.bottom_sheet_word_info);
+                        // bottomSheetDialog.show();
+
+
+                        FlexboxLayout pos_container = bottomSheetDialog.findViewById(R.id.pos_container);
+
+                        pos_container.removeAllViews();
 
                         TextView word_title = bottomSheetDialog.findViewById(R.id.word_title);
+                        TextView word_number = bottomSheetDialog.findViewById(R.id.word_number);
                         TextView word_meaning = bottomSheetDialog.findViewById(R.id.word_meaning);
                         TextView word_lemma = bottomSheetDialog.findViewById(R.id.word_lemma);
                         TextView word_root = bottomSheetDialog.findViewById(R.id.word_root);
                         TextView arabic_exp = bottomSheetDialog.findViewById(R.id.arabic_exp);
 
 
-                        word_title.setText(sura_title + "->" + sura_no + ":" + ayah_no + ":" + word_no);
+                        word_title.setText(sura_title + " -> ");
+                        word_number.setText(sura_no + ":" + ayah_no + ":" + word_no);
+                        initialize_font_face(word_title);
 
 
+                        String exp = "___";
                         String arabic_words = wordInfoArray.get(0).arabic;
-                        String[] arabic_words_array = arabic_words.split("___");
+                        String arabic_pos = wordInfoArray.get(0).position;
+                        String[] arabic_words_array = arabic_words.split(exp);
+                        String[] arabic_pos_array = arabic_pos.split(exp);
 
 
                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 
                         for (int i = 0; i < arabic_words_array.length; i++) {
+
+
+                            View pos_item = LayoutInflater.from(context).inflate(R.layout.pos_item, pos_container, false);
+                            View pos_indicator = pos_item.findViewById(R.id.pos_indicator);
+                            TextView pos_title = pos_item.findViewById(R.id.pos_title);
+
+
                             int start = spannableStringBuilder.length(); // শুরুর index
                             spannableStringBuilder.append(arabic_words_array[i]);
 
                             int end = spannableStringBuilder.length(); // শেষ index
 
-                            // 4th word (index 4) এ রঙ লাল হবে
-                            if (i == 0) {
-                                spannableStringBuilder.setSpan(
-                                        new ForegroundColorSpan(Color.RED),
-                                        start,
-                                        end,
-                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                                );
-                            }
+
+                            String pos_abbr = arabic_pos_array[i];
+                            int abbr_color = QuranController.abrToColor(pos_abbr);
+
+                            pos_abbr = QuranController.abrToFullword(pos_abbr);
+
+
+                            pos_indicator.setBackgroundTintList(ColorStateList.valueOf(abbr_color));
+
+                            pos_title.setText(pos_abbr);
+                            pos_container.addView(pos_item);
+
+                            spannableStringBuilder.setSpan(
+                                    new ForegroundColorSpan(abbr_color),
+                                    start,
+                                    end,
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            );
 
 
                         }

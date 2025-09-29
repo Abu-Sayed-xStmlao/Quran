@@ -38,9 +38,11 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull IndexAdapter.ViewHolder holder, int position) {
         holder.sura_no.setText(indexArray.get(position).sura);
-        holder.title.setText(indexArray.get(position).name_en);
+        holder.title.setText(indexArray.get(position).title);
         holder.meaning.setText(indexArray.get(position).meaning);
-        holder.ayah_count.setText(indexArray.get(position).ayat_count);
+        holder.ayah_count.setText(indexArray.get(position).ayah_count);
+
+        FontController.initialize_font_face(context, holder.title);
         holder.itemView.setAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left));
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();

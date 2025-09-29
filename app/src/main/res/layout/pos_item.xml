@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="6dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+
+    <View
+        android:id="@+id/pos_indicator"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/gd_circle"
+        android:backgroundTint="#6200EA" />
+
+    <TextView
+        android:id="@+id/pos_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Noun" />
+</LinearLayout>

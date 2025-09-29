@@ -209,9 +209,9 @@ public class QuranController {
             case "PN":
                 return Color.parseColor("#8E24AA");  // Purple
             case "DET":
-                return Color.parseColor("#43A047"); // Green
+                return Color.parseColor("#ff3399"); // Green
             case "N":
-                return Color.parseColor("#F4511E");   // Orange
+                return Color.parseColor("#6200EA");   // sweet blue
             case "PRON":
                 return Color.parseColor("#6D4C41");// Brown
             case "V":
@@ -297,5 +297,5 @@ public class QuranController {
         }
     }
 
-
+  
 }
