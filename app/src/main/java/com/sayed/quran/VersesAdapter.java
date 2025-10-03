@@ -2,10 +2,15 @@ package com.sayed.quran;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -48,8 +54,7 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.quran_header, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quran_header, parent, false);
             return new HeaderViewHolder(view);
         } else {
             View view = LayoutInflater.from(context).inflate(R.layout.verse_item, parent, false);
@@ -184,17 +189,40 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             pos_title.setText(pos_abbr);
                             pos_container.addView(pos_item);
 
-                            spannableStringBuilder.setSpan(
-                                    new ForegroundColorSpan(abbr_color),
-                                    start,
-                                    end,
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                            );
+                            int finali = i;
+
+                            // "here" এ ক্লিক ইভেন্ট সেট করা
+                            ClickableSpan clickableSpan = new ClickableSpan() {
+                                @Override
+                                public void onClick(View widget) {
+
+                                    Toast.makeText(widget.getContext(), arabic_words_array[finali], Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(context, wordSearchActivity.class);
+                                    intent.putExtra("finder", arabic_words_array[finali]);
+                                    context.startActivity(intent);
+                                }
+
+                                @Override
+                                public void updateDrawState(TextPaint ds) {
+                                    super.updateDrawState(ds);
+                                    ds.setUnderlineText(false); // underline না চাইলে false দিন
+                                    ds.setColor(Color.RED);     // টেক্সটের রঙ পরিবর্তন
+                                }
+                            };
+
+
+                            spannableStringBuilder.setSpan(clickableSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                            spannableStringBuilder.setSpan(new ForegroundColorSpan(abbr_color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
                         }
 
+
+                        // apply spannable
                         arabic_exp.setText(spannableStringBuilder);
+                        arabic_exp.setMovementMethod(LinkMovementMethod.getInstance()); // <-- জরুরি
+                        arabic_exp.setHighlightColor(Color.TRANSPARENT); // highlight remove
 
 
                         word_meaning.setText(translation_word_srt);

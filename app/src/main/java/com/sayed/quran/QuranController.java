@@ -1,5 +1,6 @@
 package com.sayed.quran;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -85,12 +86,80 @@ public class QuranController {
 
     }
 
+    public static void jumper_popup(Context context) {
+
+
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.popup_warning_layout);
+
+        EditText jumper_sura = dialog.findViewById(R.id.jumper_sura_no);
+        EditText jumper_ayah = dialog.findViewById(R.id.jumper_ayah_no);
+        Button button = dialog.findViewById(R.id.continue_button);
+
+        jumper_sura.setText("");
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String suraText = jumper_sura.getText().toString();
+                String ayahText = jumper_ayah.getText().toString();
+
+
+                dbConn dbConn = new dbConn(context);
+                int verses_count = dbConn.getVerses(Integer.parseInt(suraText), "en").size();
+                int jumper_sura_no = 1;
+                int jumper_ayah_no = 0;
+
+
+                if (!suraText.equals("") && !suraText.equals("0")) {
+                    jumper_sura_no = Integer.parseInt(suraText);
+                }
+
+
+                if (!ayahText.equals("") && !ayahText.equals("0")) {
+                    jumper_ayah_no = Integer.parseInt(ayahText);
+                }
+
+                Toast.makeText(context, verses_count + "", Toast.LENGTH_SHORT).show();
+
+                if (jumper_ayah_no > verses_count) {
+                    jumper_ayah_no = verses_count;
+                }
+
+                if (jumper_sura_no > 114) {
+                    jumper_sura_no = 114;
+                }
+
+
+                Intent intent = new Intent(context, QuranActivity.class);
+                intent.putExtra("sura", jumper_sura_no + "");
+                intent.putExtra("ayah", jumper_ayah_no + "");
+                context.startActivity(intent);
+
+                dialog.dismiss();
+            }
+
+        });
+
+        dialog.show();
+    }
+
     public static RecyclerView getRecyclerView(View view) {
         View parent = (View) view.getParent();
         while (parent != null && !(parent instanceof RecyclerView)) {
             parent = (View) parent.getParent();
         }
         return (RecyclerView) parent;
+    }
+
+    public static void hideNavigationBar(Activity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION   // শুধু navigation bar hide করবে
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
     }
 
 
@@ -102,6 +171,12 @@ public class QuranController {
         dialog.show();
     }
 
+    public static String removeArabicSigns(String arabic) {
+        if (arabic == null) return null;
+
+        // Arabic diacritics range (Harakat, Tashkeel, etc.)
+        return arabic.replaceAll("[\\u0610-\\u061A\\u064B-\\u065F\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED]", "");
+    }
 
     public static String abrToFullword(String abr) {
         if (abr == null) return "";
@@ -297,5 +372,5 @@ public class QuranController {
         }
     }
 
-  
+
 }

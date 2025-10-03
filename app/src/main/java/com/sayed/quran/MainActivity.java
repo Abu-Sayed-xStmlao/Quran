@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<IndexModel> indexArray = new ArrayList<>();
     Boolean is_searchbar_active = false;
     TextView longer, lang;
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         indexArray = dbConn.getIndex();
 
 
+        drawerLayout = findViewById(R.id.main);
         index_recyclerview = findViewById(R.id.index_recyclerview);
         index_recyclerview.setLayoutManager(new LinearLayoutManager(this));
         index_recyclerview.setAdapter(new IndexAdapter(this, indexArray));
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 showLanguageDialog();
             }
         });
-        
+
         longer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goTheme(View view) {
+        drawerLayout.close();
         startActivity(new Intent(MainActivity.this, ThemesActivity.class));
     }
 
@@ -221,6 +225,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void showLanguageDialog(View view) {
+
+        showLanguageDialog();
+        drawerLayout.close();
+    }
+
     public void show_seachbar(View view) {
         if (is_searchbar_active) {
             Animation animOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_fade_out);
@@ -251,6 +261,32 @@ public class MainActivity extends AppCompatActivity {
 
             is_searchbar_active = true;
         }
+        drawerLayout.close();
     }
+
+    public void goSearchActivity(View view) {
+        startActivity(new Intent(MainActivity.this, QuranSearchTypeActivity.class));
+    }
+
+    public void goJumper(View view) {
+        QuranController.jumper_popup(MainActivity.this);
+        drawerLayout.close();
+    }
+
+
+    public void goArabicSearch(View view) {
+        Intent intent = new Intent(MainActivity.this, VerseSearchActivity.class);
+        intent.putExtra("search_type", "arabic");
+        startActivity(intent);
+        drawerLayout.close();
+    }
+
+    public void goTranslationSearch(View view) {
+        Intent intent = new Intent(MainActivity.this, VerseSearchActivity.class);
+        intent.putExtra("search_type", "translation");
+        startActivity(intent);
+        drawerLayout.close();
+    }
+
 
 }

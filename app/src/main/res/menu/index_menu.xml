@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/jumper"
+        android:icon="@drawable/stars"
+        android:title="Jumper" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="Search" />
+
+    <item
+        android:id="@+id/search_arabic"
+        android:icon="@drawable/search_arabic"
+        android:title="Search Arabic" />
+    <item
+        android:id="@+id/search_translation"
+        android:icon="@drawable/search_translation"
+        android:title="Search Translation" />
+    <item
+        android:id="@+id/language"
+        android:icon="@drawable/language"
+        android:title="Language" />
+    <item
+        android:id="@+id/themes"
+        android:icon="@drawable/outline_air_24"
+        android:title="Themes" />
+
+
+</menu>
