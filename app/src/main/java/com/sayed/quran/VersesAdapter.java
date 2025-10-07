@@ -125,7 +125,7 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 word_content.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View asrock) {
 
 
                         ArrayList<wordInfoModel> wordInfoArray = new ArrayList<>();
@@ -134,9 +134,7 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         wordInfoArray = wordDbConn.getWordInfo(sura_no, ayah_no, word_no);
 
                         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.TransparentBottomSheetDialog);
-                        bottomSheetDialog.setContentView(R.layout.bottom_sheet_word_info);
-                        // bottomSheetDialog.show();
-
+                        bottomSheetDialog.setContentView(LayoutInflater.from(context).inflate(R.layout.bottom_sheet_word_info, null));
 
                         FlexboxLayout pos_container = bottomSheetDialog.findViewById(R.id.pos_container);
 
@@ -148,6 +146,41 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         TextView word_lemma = bottomSheetDialog.findViewById(R.id.word_lemma);
                         TextView word_root = bottomSheetDialog.findViewById(R.id.word_root);
                         TextView arabic_exp = bottomSheetDialog.findViewById(R.id.arabic_exp);
+
+                        word_meaning.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(context, "word_meaning", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        word_number.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(context, "word_number", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        word_title.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(context, "word_title", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        word_lemma.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(context, "word_lemma", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        word_root.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(context, "word_root", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
 
                         word_title.setText(sura_title + " -> ");

@@ -27,9 +27,10 @@
         android:layout_gravity="center"
         android:fontFamily="@font/poppins"
         android:gravity="center"
-        android:text="english"
+        android:text="(of) Allah"
         android:textAlignment="center"
         android:textColor="?attr/myTextColor"
+        android:textDirection="ltr"
         android:textSize="10sp" />
 
 

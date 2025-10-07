@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,13 +50,13 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
     public void onBindViewHolder(@NonNull wordVerseSearchAdapter.ViewHolder holder, int position) {
         dbConn dbConn = new dbConn(context);
         ArrayList<suraInfoModel> suraInfo = new ArrayList<>();
-        suraInfo = dbConn.getSuraInfo(versesArray.get(0).sura);
+        suraInfo = dbConn.getSuraInfo(versesArray.get(position).sura);
 
         String sura_title = suraInfo.get(0).sura_title;
 
 
         // Set basic text views
-        holder.ayah.setText(versesArray.get(position).ayah);
+        holder.ayah.setText(sura_title + "->" + versesArray.get(position).sura + ":" + versesArray.get(position).ayah);
         holder.translation.setText(versesArray.get(position).translation);
 
         // Split Arabic and translation words
@@ -82,6 +81,16 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
             arabic_word.setText(arabic_words[i]);
             translation_word.setText(translation_words[i]);
 
+            if (arabic_words[i].contains(finder) ||
+                    arabic_words[i].contains(QuranController.removeArabicSigns(finder))) {
+                // Background tint সেট করা
+                word_content.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000"))); // কালো
+
+                // Text color সেট করা
+                arabic_word.setTextColor(Color.parseColor("#FFFFFF")); // সাদা
+            }
+
+
             String translation_word_srt = translation_words[i];
 
             initialize_font_face(context, translation_word);
@@ -90,7 +99,7 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
 
             word_content.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View vxr) {
 
 
                     ArrayList<wordInfoModel> wordInfoArray = new ArrayList<>();
@@ -99,7 +108,7 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                     wordInfoArray = wordDbConn.getWordInfo(sura_no, ayah_no, word_no);
 
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.TransparentBottomSheetDialog);
-                    bottomSheetDialog.setContentView(R.layout.bottom_sheet_word_info);
+                    bottomSheetDialog.setContentView(LayoutInflater.from(context).inflate(R.layout.bottom_sheet_word_info, null));
 
 
                     FlexboxLayout pos_container = bottomSheetDialog.findViewById(R.id.pos_container);
@@ -112,6 +121,14 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                     TextView word_lemma = bottomSheetDialog.findViewById(R.id.word_lemma);
                     TextView word_root = bottomSheetDialog.findViewById(R.id.word_root);
                     TextView arabic_exp = bottomSheetDialog.findViewById(R.id.arabic_exp);
+
+
+                    word_meaning.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View ciew) {
+                            QuranController.popup_warning(context, "sayed");//click not working
+                        }
+                    });
 
 
                     word_title.setText(sura_title + " -> ");
@@ -160,10 +177,17 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                             @Override
                             public void onClick(View widget) {
 
-                                Toast.makeText(widget.getContext(), arabic_words_array[finali], Toast.LENGTH_SHORT).show();
+
+                                String textToCopy = arabic_words_array[finali];
+
+                                // Copy text to clipboard
+                                //   ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
+
+                                // Toast.makeText(widget.getContext(), arabic_words_array[finali], Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, wordSearchActivity.class);
                                 intent.putExtra("finder", arabic_words_array[finali]);
                                 context.startActivity(intent);
+
                             }
 
                             @Override
@@ -193,12 +217,15 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                     initialize_font_face(context, word_meaning);
 
 
-                    word_lemma.setText(wordInfoArray.get(0).lemma);
+                    String lemma = wordInfoArray.get(0).lemma;
+                    word_lemma.setText(lemma);
+
 
                     if (wordInfoArray.get(0).root_ar.trim().isEmpty()) {
                         word_root.setText("...");
                     } else {
                         word_root.setText(wordInfoArray.get(0).root_ar);
+
                     }
 
 

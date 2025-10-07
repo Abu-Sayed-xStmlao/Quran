@@ -174,8 +174,16 @@ public class QuranController {
     public static String removeArabicSigns(String arabic) {
         if (arabic == null) return null;
 
-        // Arabic diacritics range (Harakat, Tashkeel, etc.)
-        return arabic.replaceAll("[\\u0610-\\u061A\\u064B-\\u065F\\u06D6-\\u06DC\\u06DF-\\u06E8\\u06EA-\\u06ED]", "");
+        // Remove all Arabic diacritics, harakat, tatweel, sukun, waqf signs, and Quranic marks
+        return arabic.replaceAll("[\\u0610-\\u061A" +  // small high signs
+                "\\u064B-\\u065F" +  // harakat and sukun
+                "\\u0670" +          // small alef
+                "\\u06D6-\\u06ED" +  // additional Quranic signs
+                "\\u08D3-\\u08FF" +  // extended Arabic marks (Unicode 8+)
+                "\\uFD3E\\uFD3F" +   // ornate parentheses
+                "\\u06E5\\u06E6" +   // small yeh and waw
+                "\\u0640" +          // tatweel (ـ)
+                "]", "");
     }
 
     public static String abrToFullword(String abr) {
