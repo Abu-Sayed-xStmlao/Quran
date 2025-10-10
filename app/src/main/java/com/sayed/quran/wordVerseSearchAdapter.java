@@ -81,8 +81,11 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
             arabic_word.setText(arabic_words[i]);
             translation_word.setText(translation_words[i]);
 
-            if (arabic_words[i].contains(finder) ||
-                    arabic_words[i].contains(QuranController.removeArabicSigns(finder))) {
+            String formatted_arabic = QuranController.removeArabicSigns(arabic_words[i]);
+            String formatted_finder = QuranController.removeArabicSigns(finder);
+
+
+            if (formatted_arabic.contains(formatted_finder)) {
                 // Background tint সেট করা
                 word_content.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000"))); // কালো
 

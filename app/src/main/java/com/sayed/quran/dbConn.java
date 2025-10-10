@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,12 +16,14 @@ import java.util.Map;
 public class dbConn extends SQLiteOpenHelper {
 
     public static final String DB_PATH = "/storage/emulated/0/Android/Quran/";
-    public static final String DB_NAME = "theQuran.db";
+    public static final String DB_NAME = "theQuran.db"; // main db (db1)
+    public static final String DB2_NAME = "corpus.db";  // secondary db (db2)
     public static final int DB_VERSION = 1;
 
     private final Context context;
 
     public dbConn(@Nullable Context context) {
+        // Pass only main DB name to SQLiteOpenHelper
         super(context, DB_PATH + DB_NAME, null, DB_VERSION);
         this.context = context;
     }
@@ -27,13 +31,58 @@ public class dbConn extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Not needed for pre-populated databases
-        // But if needed later, you can create tables here
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Example for update
         db.execSQL("DROP TABLE IF EXISTS sura");
         onCreate(db);
+    }
+
+    /**
+     * Get a readable database and attach the second one
+     */
+    public SQLiteDatabase getJoinedDatabase() {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(
+                DB_PATH + DB_NAME,
+                null,
+                SQLiteDatabase.OPEN_READWRITE
+        );
+
+        // Attach second DB
+        File db2File = new File(DB_PATH + DB2_NAME);
+        if (db2File.exists()) {
+            String attachQuery = "ATTACH DATABASE '" + db2File.getPath() + "' AS corpusDB;";
+            db.execSQL(attachQuery);
+            Log.d("DB_ATTACH", "corpus.db attached successfully!");
+        } else {
+            Log.e("DB_ATTACH", "corpus.db not found!");
+        }
+
+        return db;
+    }
+
+    /**
+     * Example: run an INNER JOIN between theQuran.db and corpus.db
+     */
+    public void testJoin() {
+        SQLiteDatabase db = getJoinedDatabase();
+
+        String query = "SELECT q.arabic_text, c.word_translation " +
+                "FROM verses q " +
+                "INNER JOIN corpusDB.words c ON q.id = c.verse_id " +
+                "WHERE q.sura = 1 LIMIT 10;";
+
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            String arabic = cursor.getString(0);
+            String translation = cursor.getString(1);
+            Log.d("JOIN_RESULT", arabic + " — " + translation);
+        }
+
+        cursor.close();
+        db.close();
     }
 
 
@@ -241,83 +290,6 @@ public class dbConn extends SQLiteOpenHelper {
         database.close();
         return versesList;
     }
-//    public ArrayList<VerseModel> findWordVerses(String search_word) {
-//        String lang = LanguagePref.getLanguage(context);
-//        String cleared_search_word = QuranController.removeArabicSigns(search_word);
-//        ArrayList<VerseModel> versesList = new ArrayList<>();
-//        Map<Integer, String> wordsMap = new HashMap<>();
-//        SQLiteDatabase database = this.getReadableDatabase();
-//
-//        // Step 1: Preload all words for this sura into memory
-//        String wordsQuery = "SELECT " +
-//                "w.sura, w.ayah, w.word, w." + lang +
-//                " FROM words w " +
-//                "INNER JOIN arabic_verses arv " +
-//                "ON w.sura = arv.sura " +
-//                "AND w.ayah = arv.ayah " +
-//                "INNER JOIN ar_verses ar " +
-//                "ON arv.sura = ar.sura " +
-//                "AND arv.ayah = ar.ayah " +
-//                "WHERE " +
-//                "arv.content LIKE ? " +
-//                "OR ar.content LIKE ? ";
-//
-//        String full_finder_pattern = "%" + search_word + "%";
-//        String cleared_finder_pattern = "%" + cleared_search_word + "%";
-//
-//        try (Cursor cursor = database.rawQuery(wordsQuery, new String[]{cleared_finder_pattern, full_finder_pattern})) {
-//            if (cursor.moveToFirst()) {
-//                int ayahCol = cursor.getColumnIndexOrThrow("ayah");
-//                int langCol = cursor.getColumnIndexOrThrow(lang);
-//                do {
-//                    int ayah = cursor.getInt(ayahCol);
-//                    String word = cursor.getString(langCol);
-//
-//                    // Append multiple words per ayah
-//                    if (!wordsMap.containsKey(ayah)) {
-//                        wordsMap.put(ayah, "__#" + word);
-//                    } else {
-//                        wordsMap.put(ayah, wordsMap.get(ayah) + "__#" + word);
-//                    }
-//                } while (cursor.moveToNext());
-//            }
-//        }
-//
-//        // Step 2: Load all verses with translations
-//        String verseQuery = "SELECT " +
-//                "ar.sura AS sura, ar.ayah AS ayah, ar.content AS arabic, tr.content AS translation " +
-//                "FROM ar_verses ar " +
-//                "INNER JOIN " + lang + "_verses tr ON ar.id = tr.id " +
-//                "INNER JOIN arabic_verses far ON ar.id = far.id " +
-//                "WHERE " +
-//                "ar.content LIKE ? " +
-//                "OR far.content LIKE ? ";
-//
-//        try (Cursor cursor = database.rawQuery(verseQuery, new String[]{full_finder_pattern, cleared_finder_pattern})) {
-//            if (cursor.moveToFirst()) {
-//                int suraCol = cursor.getColumnIndexOrThrow("sura");
-//                int ayahCol = cursor.getColumnIndexOrThrow("ayah");
-//                int arabicCol = cursor.getColumnIndexOrThrow("arabic");
-//                int transCol = cursor.getColumnIndexOrThrow("translation");
-//
-//                do {
-//                    String sura = cursor.getString(suraCol);
-//                    String ayah = cursor.getString(ayahCol);
-//                    String arabic = cursor.getString(arabicCol);
-//                    String translation = cursor.getString(transCol);
-//
-//                    // Fast lookup from cached words map
-//                    String words = wordsMap.getOrDefault(Integer.parseInt(ayah), "");
-//
-//                    versesList.add(new VerseModel(sura + "", ayah, arabic, translation, words));
-//                } while (cursor.moveToNext());
-//            }
-//        }
-//
-//        database.close();
-//        return versesList;
-//    }
-//
 
 
     public ArrayList<VerseModel> findWordVerses(String search_word) {
@@ -325,20 +297,19 @@ public class dbConn extends SQLiteOpenHelper {
         //  String cleared_search_word = QuranController.removeArabicSigns(search_word);
         ArrayList<VerseModel> versesList = new ArrayList<>();
         Map<Integer, String> wordsMap = new HashMap<>();
-        SQLiteDatabase database = this.getReadableDatabase();
+        SQLiteDatabase database = getJoinedDatabase();
 
         // Step 1: Preload all words for this sura into memory
 
-        String wordsQuery = "SELECT " +
-                "w.sura, w.ayah, w.word, w." + lang +
+        String wordsQuery = "SELECT w.sura, w.ayah, w.word, w." + lang +
                 " FROM words w " +
-                "INNER JOIN ar_verses ar " +
-                "ON w.sura = ar.sura " +
-                "AND w.ayah = ar.ayah " +
-                "WHERE " +
-                "ar.content LIKE ? ";
+                "INNER JOIN corpusDB.corpus cp " +
+                "ON w.sura = cp.sura " +
+                "AND w.ayah = cp.ayah " +
+                "WHERE cp.arabic LIKE ? ";
 
         String full_finder_pattern = "%" + search_word + "%";
+
         //String cleared_finder_pattern = "%" + cleared_search_word + "%";
 
         try (Cursor cursor = database.rawQuery(wordsQuery, new String[]{full_finder_pattern})) {
@@ -363,9 +334,15 @@ public class dbConn extends SQLiteOpenHelper {
         String verseQuery = "SELECT " +
                 "ar.sura AS sura, ar.ayah AS ayah, ar.content AS arabic, tr.content AS translation " +
                 "FROM ar_verses ar " +
-                "INNER JOIN " + lang + "_verses tr ON ar.id = tr.id " +
+                "INNER JOIN " + lang + "_verses tr " +
+                "ON ar.id = tr.id " +
+
+                "INNER JOIN corpusDB.corpus cp " +
+                "ON ar.sura = cp.sura " +
+                "AND ar.ayah = cp.ayah " +
+
                 "WHERE " +
-                "ar.content LIKE ? ";
+                "cp.arabic LIKE ? ";
 
         try (Cursor cursor = database.rawQuery(verseQuery, new String[]{full_finder_pattern})) {
             if (cursor.moveToFirst()) {

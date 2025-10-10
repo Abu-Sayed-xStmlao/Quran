@@ -31,7 +31,7 @@ public class wordSearchActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         requested_word = (intent != null) ? intent.getStringExtra("finder") : null;
-        requested_word = requested_word.replace('\u0652', '\u06E1');
+        //requested_word = requested_word.replace('\u0652', '\u06E1');
 
         dbConn dbConn = new dbConn(this);
 
