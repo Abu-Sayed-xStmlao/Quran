@@ -48,8 +48,9 @@ public class QuranActivity extends AppCompatActivity {
         Toast.makeText(this, requested_sura, Toast.LENGTH_SHORT).show();
 
         int requested_sura_int = Integer.parseInt(requested_sura);
-        versesArray = dbConn.getVerses(requested_sura_int, LanguagePref.getLanguage(this));
+        versesArray = dbConn.getVerses(requested_sura_int);
 
+        //QuranController.popup_warning(this, versesArray.size() + "");
         versesAdapter = new VersesAdapter(QuranActivity.this, versesArray);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         quran_recyclerview.setLayoutManager(layoutManager);
@@ -119,7 +120,7 @@ public class QuranActivity extends AppCompatActivity {
 
             LanguagePref.setLanguage(QuranActivity.this, lang);
             versesArray.clear();
-            versesArray.addAll(dbConn.getVerses(suraNumber, lang));
+            versesArray.addAll(dbConn.getVerses(suraNumber));
             versesAdapter.notifyDataSetChanged();
             requested_title = dbConn.getSuraInfo(requested_sura).get(0).sura_title;
             title.setText(requested_title);

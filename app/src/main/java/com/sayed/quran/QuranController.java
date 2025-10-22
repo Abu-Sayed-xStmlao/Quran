@@ -36,7 +36,7 @@ public class QuranController {
 
 
                 dbConn dbConn = new dbConn(context);
-                int verses_count = dbConn.getVerses(Integer.parseInt(suraText), "en").size();
+                int verses_count = dbConn.getVerses(Integer.parseInt(suraText)).size();
                 int jumper_sura_no = 1;
                 int jumper_ayah_no = 0;
 
@@ -106,7 +106,7 @@ public class QuranController {
 
 
                 dbConn dbConn = new dbConn(context);
-                int verses_count = dbConn.getVerses(Integer.parseInt(suraText), "en").size();
+                int verses_count = dbConn.getVerses(Integer.parseInt(suraText)).size();
                 int jumper_sura_no = 1;
                 int jumper_ayah_no = 0;
 

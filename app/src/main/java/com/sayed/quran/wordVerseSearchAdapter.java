@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -102,17 +103,16 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
 
             word_content.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View vxr) {
+                public void onClick(View asrock) {
 
 
                     ArrayList<wordInfoModel> wordInfoArray = new ArrayList<>();
-                    wordDbConn wordDbConn = new wordDbConn(context);
+                    dbConn dbConn = new dbConn(context);
 
-                    wordInfoArray = wordDbConn.getWordInfo(sura_no, ayah_no, word_no);
+                    wordInfoArray = dbConn.getWordInfo(sura_no, ayah_no, word_no);
 
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.TransparentBottomSheetDialog);
                     bottomSheetDialog.setContentView(LayoutInflater.from(context).inflate(R.layout.bottom_sheet_word_info, null));
-
 
                     FlexboxLayout pos_container = bottomSheetDialog.findViewById(R.id.pos_container);
 
@@ -125,11 +125,38 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                     TextView word_root = bottomSheetDialog.findViewById(R.id.word_root);
                     TextView arabic_exp = bottomSheetDialog.findViewById(R.id.arabic_exp);
 
-
                     word_meaning.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View ciew) {
-                            QuranController.popup_warning(context, "sayed");//click not working
+                        public void onClick(View v) {
+                            Toast.makeText(context, "word_meaning", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    word_number.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "word_number", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    word_title.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "word_title", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    word_lemma.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "word_lemma", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    word_root.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "word_root", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -140,15 +167,27 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
 
 
                     String exp = "___";
-                    String arabic_words = wordInfoArray.get(0).arabic;
-                    String arabic_pos = wordInfoArray.get(0).position;
-                    String[] arabic_words_array = arabic_words.split(exp);
-                    String[] arabic_pos_array = arabic_pos.split(exp);
+                    int exp_count = Integer.parseInt(wordInfoArray.get(0).count);
+
+                    ArrayList<String> arabic_words_array = new ArrayList<>();
+                    ArrayList<String> arabic_pos_array = new ArrayList<>();
+
+                    arabic_words_array.add(wordInfoArray.get(0).arabic1);
+                    arabic_words_array.add(wordInfoArray.get(0).arabic2);
+                    arabic_words_array.add(wordInfoArray.get(0).arabic3);
+                    arabic_words_array.add(wordInfoArray.get(0).arabic4);
+                    arabic_words_array.add(wordInfoArray.get(0).arabic5);
+
+                    arabic_pos_array.add(wordInfoArray.get(0).pos1);
+                    arabic_pos_array.add(wordInfoArray.get(0).pos2);
+                    arabic_pos_array.add(wordInfoArray.get(0).pos3);
+                    arabic_pos_array.add(wordInfoArray.get(0).pos4);
+                    arabic_pos_array.add(wordInfoArray.get(0).pos5);
 
 
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 
-                    for (int i = 0; i < arabic_words_array.length; i++) {
+                    for (int i = 0; i < exp_count; i++) {
 
 
                         View pos_item = LayoutInflater.from(context).inflate(R.layout.pos_item, pos_container, false);
@@ -157,12 +196,12 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
 
 
                         int start = spannableStringBuilder.length(); // শুরুর index
-                        spannableStringBuilder.append(arabic_words_array[i]);
+                        spannableStringBuilder.append(arabic_words_array.get(i));
 
                         int end = spannableStringBuilder.length(); // শেষ index
 
 
-                        String pos_abbr = arabic_pos_array[i];
+                        String pos_abbr = arabic_pos_array.get(i);
                         int abbr_color = QuranController.abrToColor(pos_abbr);
 
                         pos_abbr = QuranController.abrToFullword(pos_abbr);
@@ -180,17 +219,10 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                             @Override
                             public void onClick(View widget) {
 
-
-                                String textToCopy = arabic_words_array[finali];
-
-                                // Copy text to clipboard
-                                //   ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
-
-                                // Toast.makeText(widget.getContext(), arabic_words_array[finali], Toast.LENGTH_SHORT).show();
+                                Toast.makeText(widget.getContext(), arabic_words_array.get(finali), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, wordSearchActivity.class);
-                                intent.putExtra("finder", arabic_words_array[finali]);
+                                intent.putExtra("finder", arabic_words_array.get(finali));
                                 context.startActivity(intent);
-
                             }
 
                             @Override
@@ -220,15 +252,18 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
                     initialize_font_face(context, word_meaning);
 
 
-                    String lemma = wordInfoArray.get(0).lemma;
-                    word_lemma.setText(lemma);
-
+                    word_lemma.setText(wordInfoArray.get(0).lemma);
 
                     if (wordInfoArray.get(0).root_ar.trim().isEmpty()) {
                         word_root.setText("...");
                     } else {
                         word_root.setText(wordInfoArray.get(0).root_ar);
+                    }
 
+                    if (wordInfoArray.get(0).lemma.trim().isEmpty()) {
+                        word_lemma.setText("...");
+                    } else {
+                        word_lemma.setText(wordInfoArray.get(0).lemma);
                     }
 
 
@@ -259,8 +294,8 @@ public class wordVerseSearchAdapter extends RecyclerView.Adapter<wordVerseSearch
         holder.translation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tafsirDbConn tafsirDbConn = new tafsirDbConn(context);
-                String tafsir = tafsirDbConn.getTafsir(versesArray.get(position).sura, versesArray.get(position).ayah);
+                dbConn tafsirDbConn = new dbConn(context);
+                String tafsir = tafsirDbConn.getTafsir(Integer.parseInt(versesArray.get(position).sura), Integer.parseInt(versesArray.get(position).ayah));
 
                 Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.popup_layout);

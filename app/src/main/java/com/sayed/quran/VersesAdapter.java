@@ -129,9 +129,9 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
                         ArrayList<wordInfoModel> wordInfoArray = new ArrayList<>();
-                        wordDbConn wordDbConn = new wordDbConn(context);
+                        dbConn dbConn = new dbConn(context);
 
-                        wordInfoArray = wordDbConn.getWordInfo(sura_no, ayah_no, word_no);
+                        wordInfoArray = dbConn.getWordInfo(sura_no, ayah_no, word_no);
 
                         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.TransparentBottomSheetDialog);
                         bottomSheetDialog.setContentView(LayoutInflater.from(context).inflate(R.layout.bottom_sheet_word_info, null));
@@ -189,15 +189,27 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
                         String exp = "___";
-                        String arabic_words = wordInfoArray.get(0).arabic;
-                        String arabic_pos = wordInfoArray.get(0).position;
-                        String[] arabic_words_array = arabic_words.split(exp);
-                        String[] arabic_pos_array = arabic_pos.split(exp);
+                        int exp_count = Integer.parseInt(wordInfoArray.get(0).count);
+
+                        ArrayList<String> arabic_words_array = new ArrayList<>();
+                        ArrayList<String> arabic_pos_array = new ArrayList<>();
+
+                        arabic_words_array.add(wordInfoArray.get(0).arabic1);
+                        arabic_words_array.add(wordInfoArray.get(0).arabic2);
+                        arabic_words_array.add(wordInfoArray.get(0).arabic3);
+                        arabic_words_array.add(wordInfoArray.get(0).arabic4);
+                        arabic_words_array.add(wordInfoArray.get(0).arabic5);
+
+                        arabic_pos_array.add(wordInfoArray.get(0).pos1);
+                        arabic_pos_array.add(wordInfoArray.get(0).pos2);
+                        arabic_pos_array.add(wordInfoArray.get(0).pos3);
+                        arabic_pos_array.add(wordInfoArray.get(0).pos4);
+                        arabic_pos_array.add(wordInfoArray.get(0).pos5);
 
 
                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 
-                        for (int i = 0; i < arabic_words_array.length; i++) {
+                        for (int i = 0; i < exp_count; i++) {
 
 
                             View pos_item = LayoutInflater.from(context).inflate(R.layout.pos_item, pos_container, false);
@@ -206,12 +218,12 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
                             int start = spannableStringBuilder.length(); // শুরুর index
-                            spannableStringBuilder.append(arabic_words_array[i]);
+                            spannableStringBuilder.append(arabic_words_array.get(i));
 
                             int end = spannableStringBuilder.length(); // শেষ index
 
 
-                            String pos_abbr = arabic_pos_array[i];
+                            String pos_abbr = arabic_pos_array.get(i);
                             int abbr_color = QuranController.abrToColor(pos_abbr);
 
                             pos_abbr = QuranController.abrToFullword(pos_abbr);
@@ -229,9 +241,9 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 @Override
                                 public void onClick(View widget) {
 
-                                    Toast.makeText(widget.getContext(), arabic_words_array[finali], Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(widget.getContext(), arabic_words_array.get(finali), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(context, wordSearchActivity.class);
-                                    intent.putExtra("finder", arabic_words_array[finali]);
+                                    intent.putExtra("finder", arabic_words_array.get(finali));
                                     context.startActivity(intent);
                                 }
 
@@ -270,6 +282,12 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             word_root.setText(wordInfoArray.get(0).root_ar);
                         }
 
+                        if (wordInfoArray.get(0).lemma.trim().isEmpty()) {
+                            word_lemma.setText("...");
+                        } else {
+                            word_lemma.setText(wordInfoArray.get(0).lemma);
+                        }
+
 
                         Button exit_btn = bottomSheetDialog.findViewById(R.id.exit_button);
                         exit_btn.setOnClickListener(new View.OnClickListener() {
@@ -298,8 +316,8 @@ public class VersesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemViewHolder.translation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tafsirDbConn tafsirDbConn = new tafsirDbConn(context);
-                    String tafsir = tafsirDbConn.getTafsir(versesArray.get(position).sura, versesArray.get(position).ayah);
+                    dbConn tafsirDbConn = new dbConn(context);
+                    String tafsir = tafsirDbConn.getTafsir(Integer.parseInt(versesArray.get(position).sura), Integer.parseInt(versesArray.get(position).ayah));
 
                     Dialog dialog = new Dialog(context);
                     dialog.setContentView(R.layout.popup_layout);
